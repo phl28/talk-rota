@@ -14,8 +14,11 @@ function addMember() {
   newMember.value = ''
 }
 
+// there is a bug where if you have generated once, then you cant remove the last member 
 function removeMember(member: object) {
-  members.value = members.value.filter(m => m !== member)
+    let index = members.value.findIndex(m => m === member)
+    members.value = members.value.filter(m => m !== member)
+    deleteRow(index)
 }
 
 function done() {
@@ -84,7 +87,7 @@ function addRow() {
     newDate.value = null;
 }
 
-function deleteRow(index) {
+function deleteRow(index: number) {
     tableData.rows.splice(index, 1)
 }
 
@@ -122,7 +125,6 @@ function deleteRow(index) {
                 <tr v-for="(row, index) in tableData.rows" :key="index">
                 <td>{{ row.name }}</td>
                 <td>{{ row.date }}</td>
-                <td><button @click="deleteRow(index)">Delete</button></td>
                 </tr>
             </tbody>
         </table>

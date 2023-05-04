@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { KButton } from "@cambridgekineticsltd/kinetic-ui";
+import { KButton, KInputNumber } from "@cambridgekineticsltd/kinetic-ui";
 import { ref, computed, reactive } from 'vue';
 
 
@@ -7,12 +7,16 @@ let id = 0;
 const newMember = ref('')
 const members = ref(new Array)
 const allMembersCheck = ref(false)
+const numMembersCheck = ref(false)
 
 function addMember() {
   members.value.push({ id: id++, member_name: newMember.value })
   addRow()
   newMember.value = ''
 }
+
+let fridays = Array<Date>();
+
 
 // there is a bug where if you have generated once, then you cant remove the last member 
 function removeMember(member: object) {
@@ -25,37 +29,43 @@ function done() {
   allMembersCheck.value = !allMembersCheck.value
 }
 
+function confirm() {
+    numMembersCheck.value = !numMembersCheck.value
+    fridays = allFridays(d, numMembers.value)
+}
+
 let idx = 0;
 
-function getNumMembers() {
-  return members.value.length
-}
-let numMembers = computed(() => members.value.length)
+// function getNumMembers() {
+//   return members.value.length
+// }
+let numMembers = ref(0)
 
 function generate() {
   idx = Math.floor(Math.random() * numMembers.value)
   return idx
 }
+let d = new Date();
 
 // need another function to check if we have enough fridays, we would like to at least the same number of fridays as we have in the members array
-function allFridays(numMembers: number) {
+function allFridays(d: Date, numMembers) {
     // get the number of fridays
     // get the number of members
     // if the number of fridays is less than the number of members, then we need to add more fridays
     // if the number of fridays is more than the number of members, then we need to remove fridays
     // if the number of fridays is equal to the number of members, then we are good to go
-    let d = new Date(),
-        month = d.getMonth(),
+
+    let month = d.getMonth(),
         fridays = Array<Date>();
+
     fridays = getFridays(d, month, fridays)
-    while (fridays.length < numMembers) {
+    while (fridays.length < numMembers.value) {
         month ++
         d = new Date(d.getFullYear(), month, 1);
         fridays = getFridays(d, month, fridays)
     }
+    return fridays
 }
-
-
 
 
 function getFridays(d: Date, month: number, fridays: Array<Date>) {
@@ -91,6 +101,7 @@ function deleteRow(index: number) {
     tableData.rows.splice(index, 1)
 }
 
+
 </script>
 
 
@@ -98,6 +109,14 @@ function deleteRow(index: number) {
 
 <template>
     <h1>Tech Talk Rota</h1>
+    <h3>Today's Date: {{ d.getDate() }}/{{ d.getMonth()+1 }}/{{ d.getFullYear() }}</h3>
+    <KInputNumber label="How many members are there in the team?" v-model="numMembers" />
+    <KButton variant="transparent" size="sm" label="Confirm" @click="confirm" />
+    <ol v-if="numMembersCheck">
+        <li v-for="friday in fridays" :key="friday">
+            {{ friday.getDate() }}/{{ friday.getMonth()+1 }}/{{ friday.getFullYear() }}
+        </li>
+    </ol>
     <form @submit.prevent="addMember">
         <input v-model="newMember">
         <KButton variant="transparent" size="sm" label="Add Member" />    
@@ -108,7 +127,7 @@ function deleteRow(index: number) {
         <KButton variant="primary" size=sm label="X" @click="removeMember(member)" />
         </li>
     </ol>
-    <p>Total number of members: {{ getNumMembers() }}</p>
+    <!-- <p>Total number of members: {{ getNumMembers() }}</p> -->
     <KButton variant="primary" size="sm" label="Generate" @click="done();generate()" />
     <p v-if="allMembersCheck">The lucky person is: {{ members[idx].member_name }}</p>
 

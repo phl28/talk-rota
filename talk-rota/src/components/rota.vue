@@ -10,9 +10,12 @@ const allMembersCheck = ref(false)
 const numMembersCheck = ref(false)
 
 function addMember() {
-  members.value.push({ id: id++, member_name: newMember.value })
-  addRow()
-  newMember.value = ''
+    if (members.value.length  < numMembers.value) {
+        members.value.push({ id: id++, member_name: newMember.value })
+        addRow()
+        newMember.value = ''
+    }
+
 }
 
 let fridays = Array<Date>();
@@ -89,12 +92,11 @@ const tableData = reactive ({
 })
 
 const newName  = ref('')
-const newDate = ref(null)
 
 function addRow() {
-    tableData.rows.push({ name: newMember.value, date: newDate.value })
+    idx = Math.floor(Math.random() * fridays.length)
+    tableData.rows.push({ name: newMember.value, date: fridays[idx].getDate() + '/' + (fridays[idx].getMonth()+1) + '/' + fridays[idx].getFullYear() })
     newName.value = ''
-    newDate.value = null;
 }
 
 function deleteRow(index: number) {

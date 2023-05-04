@@ -37,5 +37,3 @@ const dateValue = ref<Dayjs>();
   background-color: rgb(54, 15, 41);
 }
 </style>
-
-<!-- .toDate().getDate() + '/' + (dateValue.toDate().getMonth()+1) + '/' + dateValue.toDate().getFullYear() -->

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { KButton, KInputNumber, KInputDate } from "@cambridgekineticsltd/kinetic-ui";
+import { KButton, KInputNumber } from "@cambridgekineticsltd/kinetic-ui";
 import { ref, reactive } from 'vue';
-import type { Dayjs } from 'dayjs';
 import tableRow from './tableRow.vue'
 
 let id = 0;
@@ -104,8 +103,6 @@ function changeDate() {
     chgDate.value = !chgDate.value
 }
 
-// there cant only be a single value otherwise all the dates would be the same
-// const dateValue = ref<Dayjs>();
 </script>
 
 

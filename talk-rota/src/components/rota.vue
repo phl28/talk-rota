@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { KButton, KInputNumber } from "@cambridgekineticsltd/kinetic-ui";
-import { ref, computed, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 
 
 let id = 0;
 const newMember = ref('')
 const members = ref(new Array)
-const allMembersCheck = ref(false)
 const numMembersCheck = ref(false)
 
 function addMember() {
@@ -21,22 +20,20 @@ function addMember() {
 let fridays = Array<Date>();
 let remainingFridays = Array<Date>();
 
-// there is a bug where if you have generated once, then you cant remove the last member 
 function removeMember(member: object) {
     let index = members.value.findIndex(m => m === member)
+    let idx = fridays.findIndex(f => (f.getDate()+ '/' + (f.getMonth()+1) + '/' + f.getFullYear()) === tableData.rows[index].date)
     members.value = members.value.filter(m => m !== member)
     deleteRow(index)
+    remainingFridays.push(fridays[idx])
 }
 
-function done() {
-  allMembersCheck.value = !allMembersCheck.value
-}
 
 function confirm() {
     if (numMembersCheck.value === false) {
         numMembersCheck.value = !numMembersCheck.value
         fridays = allFridays(d, numMembers.value)
-        remainingFridays = fridays
+        remainingFridays = fridays.slice()
     }
 }
 
@@ -44,10 +41,6 @@ let idx = 0;
 
 let numMembers = ref(0)
 
-function generate() {
-  idx = Math.floor(Math.random() * numMembers.value)
-  return idx
-}
 let d = new Date();
 
 // need another function to check if we have enough fridays, we would like to at least the same number of fridays as we have in the members array
@@ -148,7 +141,6 @@ function deleteRow(index: number) {
         </table>
 
     </div>
-
 </template>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { KButton, KInputNumber } from "@cambridgekineticsltd/kinetic-ui";
+import { KButton, KInputNumber, KInput } from "@cambridgekineticsltd/kinetic-ui";
 import { ref, reactive } from 'vue';
 import tableRow from './tableRow.vue'
 
@@ -120,7 +120,7 @@ function changeDate() {
         </li>
     </ol>
     <form @submit.prevent="addMember">
-        <input v-model="newMember">
+        <k-input v-model="newMember" label="Member Name"/>
         <KButton variant="transparent" size="sm" label="Add Member" @click="addMember"/>    
     </form>
     <ol>

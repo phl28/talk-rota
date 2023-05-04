@@ -30,8 +30,10 @@ function done() {
 }
 
 function confirm() {
-    numMembersCheck.value = !numMembersCheck.value
-    fridays = allFridays(d, numMembers.value)
+    if (numMembersCheck.value === false) {
+        numMembersCheck.value = !numMembersCheck.value
+        fridays = allFridays(d, numMembers.value)
+    }
 }
 
 let idx = 0;
@@ -57,16 +59,14 @@ function allFridays(d: Date, numMembers) {
 
     let month = d.getMonth(),
         fridays = Array<Date>();
-
     fridays = getFridays(d, month, fridays)
-    while (fridays.length < numMembers.value) {
-        month ++
+    while (fridays.length < numMembers) {
+        month += 1;
         d = new Date(d.getFullYear(), month, 1);
         fridays = getFridays(d, month, fridays)
     }
     return fridays
 }
-
 
 function getFridays(d: Date, month: number, fridays: Array<Date>) {
 

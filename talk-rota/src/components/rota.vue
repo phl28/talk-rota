@@ -19,7 +19,7 @@ function addMember() {
 }
 
 let fridays = Array<Date>();
-
+let remainingFridays = Array<Date>();
 
 // there is a bug where if you have generated once, then you cant remove the last member 
 function removeMember(member: object) {
@@ -36,14 +36,12 @@ function confirm() {
     if (numMembersCheck.value === false) {
         numMembersCheck.value = !numMembersCheck.value
         fridays = allFridays(d, numMembers.value)
+        remainingFridays = fridays
     }
 }
 
 let idx = 0;
 
-// function getNumMembers() {
-//   return members.value.length
-// }
 let numMembers = ref(0)
 
 function generate() {
@@ -68,7 +66,8 @@ function allFridays(d: Date, numMembers) {
         d = new Date(d.getFullYear(), month, 1);
         fridays = getFridays(d, month, fridays)
     }
-    return fridays
+
+    return fridays.slice(0, numMembers)
 }
 
 function getFridays(d: Date, month: number, fridays: Array<Date>) {
@@ -91,12 +90,12 @@ const tableData = reactive ({
     rows: []
 })
 
-const newName  = ref('')
 
 function addRow() {
-    idx = Math.floor(Math.random() * fridays.length)
-    tableData.rows.push({ name: newMember.value, date: fridays[idx].getDate() + '/' + (fridays[idx].getMonth()+1) + '/' + fridays[idx].getFullYear() })
-    newName.value = ''
+    idx = Math.floor(Math.random() * remainingFridays.length)
+    tableData.rows.push({ name: newMember.value, date: remainingFridays[idx].getDate() + '/' + (remainingFridays[idx].getMonth()+1) + '/' + remainingFridays[idx].getFullYear() })
+    remainingFridays.splice(idx, 1)
+    newMember.value = ''
 }
 
 function deleteRow(index: number) {
@@ -114,6 +113,7 @@ function deleteRow(index: number) {
     <h3>Today's Date: {{ d.getDate() }}/{{ d.getMonth()+1 }}/{{ d.getFullYear() }}</h3>
     <KInputNumber label="How many members are there in the team?" v-model="numMembers" />
     <KButton variant="transparent" size="sm" label="Confirm" @click="confirm" />
+    <h5>List of Fridays</h5>
     <ol v-if="numMembersCheck">
         <li v-for="friday in fridays" :key="friday">
             {{ friday.getDate() }}/{{ friday.getMonth()+1 }}/{{ friday.getFullYear() }}
@@ -121,7 +121,7 @@ function deleteRow(index: number) {
     </ol>
     <form @submit.prevent="addMember">
         <input v-model="newMember">
-        <KButton variant="transparent" size="sm" label="Add Member" />    
+        <KButton variant="transparent" size="sm" label="Add Member" @click="addMember"/>    
     </form>
     <ol>
         <li v-for="member in members" :key="member.id">
@@ -129,10 +129,6 @@ function deleteRow(index: number) {
         <KButton variant="primary" size=sm label="X" @click="removeMember(member)" />
         </li>
     </ol>
-    <!-- <p>Total number of members: {{ getNumMembers() }}</p> -->
-    <!-- could deele later this line because we are no longer doing random assignment of one week -->
-    <KButton variant="primary" size="sm" label="Generate" @click="done();generate()" />
-    <p v-if="allMembersCheck">The lucky person is: {{ members[idx].member_name }}</p>
 
     <!-- table to show the dates assigned to the members -->
     <div>

@@ -10,6 +10,7 @@ const allMembersCheck = ref(false)
 
 function addMember() {
   members.value.push({ id: id++, member_name: newMember.value })
+  addRow()
   newMember.value = ''
 }
 
@@ -71,18 +72,20 @@ function getFridays(d: Date, month: number, fridays: Array<Date>) {
 }
 
 const tableData = reactive ({
-    rows: [
-        {name: 'John', date: new Date(0)},
-    ]
+    rows: []
 })
 
 const newName  = ref('')
-const newDate = ref(new Date(0))
+const newDate = ref(null)
 
 function addRow() {
-    tableData.rows.push({ name: newName.value, date: newDate.value })
+    tableData.rows.push({ name: newMember.value, date: newDate.value })
     newName.value = ''
-    newDate.value = new Date(0);
+    newDate.value = null;
+}
+
+function deleteRow(index) {
+    tableData.rows.splice(index, 1)
 }
 
 </script>
@@ -118,20 +121,13 @@ function addRow() {
             <tbody>
                 <tr v-for="(row, index) in tableData.rows" :key="index">
                 <td>{{ row.name }}</td>
-                <td>{{ row.date.getDate() }}/{{ row.date.getMonth() + 1 }}/{{ row.date.getFullYear() }}</td>
+                <td>{{ row.date }}</td>
+                <td><button @click="deleteRow(index)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
 
-        <div>
-            <label for="name">Name:</label>
-            <input id="name" v-model="newName">
-
-            <label for="date">Date:</label>
-            <input id="date" v-model.number="newDate">
-
-            <button @click="addRow">Add Row</button>
-        </div>
     </div>
 
 </template>
+

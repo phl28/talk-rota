@@ -130,12 +130,13 @@ function deleteRow(index: number) {
         </li>
     </ol>
     <!-- <p>Total number of members: {{ getNumMembers() }}</p> -->
+    <!-- could deele later this line because we are no longer doing random assignment of one week -->
     <KButton variant="primary" size="sm" label="Generate" @click="done();generate()" />
     <p v-if="allMembersCheck">The lucky person is: {{ members[idx].member_name }}</p>
 
     <!-- table to show the dates assigned to the members -->
     <div>
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                 <th>Name</th>
@@ -154,3 +155,25 @@ function deleteRow(index: number) {
 
 </template>
 
+<style scoped>
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background-color: rgb(45, 10, 48);
+  font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+  background-color: rgb(54, 15, 41);
+}
+</style>

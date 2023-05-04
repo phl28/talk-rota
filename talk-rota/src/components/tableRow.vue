@@ -1,22 +1,13 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
 import type { Dayjs } from 'dayjs';
-import { KInputDate } from "@cambridgekineticsltd/kinetic-ui";
+import { KInputDate, KButton } from "@cambridgekineticsltd/kinetic-ui";
 
 
 const props = defineProps({
-    rowData: {
-        type: Object,
-        required: true
-    },
-    changeDate: {
-        type: Function,
-        required: true
-    },
-    chgDate: {
-        type: Boolean,
-        required: true
-    },
+    rowData: Object,
+    changeDate: Function,
+    chgDate: Boolean,
 })
 
 const dateValue = ref<Dayjs>();
@@ -28,6 +19,22 @@ const dateValue = ref<Dayjs>();
     <td>{{ rowData.date }}</td>
     <td><KButton @click="changeDate" size="sm" variant="primary" label="Change Date"/></td>
     <td><k-input-date v-if="chgDate" v-model="dateValue" label="Date" /></td>
-  </tr>>
+  </tr>
 </template> 
-  
+
+<style>
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background-color: rgb(45, 10, 48);
+  font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+  background-color: rgb(54, 15, 41);
+}
+</style>

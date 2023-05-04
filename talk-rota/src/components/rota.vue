@@ -105,7 +105,7 @@ function changeDate() {
 }
 
 // there cant only be a single value otherwise all the dates would be the same
-const dateValue = ref<Dayjs>();
+// const dateValue = ref<Dayjs>();
 </script>
 
 
@@ -143,13 +143,7 @@ const dateValue = ref<Dayjs>();
                 </tr>
             </thead>
             <tbody>
-                <!-- <tableRow v-for="{row, index} in tableData.rows" :key="index" :rowData="row" :changeDate="changeDate" :chgDate="chgDate" /> -->
-                <tr v-for="(row, index) in tableData.rows" :key="index">
-                    <td>{{ row.name }}</td>
-                    <td>{{ row.date }}</td>
-                    <td><KButton @click="changeDate" size="sm" variant="primary" label="Change Date"/></td>
-                    <td><k-input-date v-if="chgDate" v-model="dateValue" label="Date" /></td>
-                </tr>
+                <tableRow v-for="(row, index) in tableData.rows" :key="index" :rowData="row" :changeDate="changeDate" :chgDate="chgDate" />
             </tbody>
         </table>
 
@@ -163,18 +157,5 @@ const dateValue = ref<Dayjs>();
   max-width: 800px;
 }
 
-.table th,
-.table td {
-  padding: 10px;
-  text-align: left;
-}
 
-.table th {
-  background-color: rgb(45, 10, 48);
-  font-weight: bold;
-}
-
-.table tr:nth-child(even) {
-  background-color: rgb(54, 15, 41);
-}
 </style>

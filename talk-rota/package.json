@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@cambridgekineticsltd/kinetic-ui": "^2.4.9",
+    "dayjs": "^1.11.7",
     "msal": "^1.4.18",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",

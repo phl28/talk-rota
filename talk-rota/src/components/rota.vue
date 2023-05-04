@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { KButton, KInputNumber } from "@cambridgekineticsltd/kinetic-ui";
+import { KButton, KInputNumber, KInputDate } from "@cambridgekineticsltd/kinetic-ui";
 import { ref, reactive } from 'vue';
-
+import type { Dayjs } from 'dayjs';
+import tableRow from './tableRow.vue'
 
 let id = 0;
 const newMember = ref('')
@@ -41,6 +42,7 @@ let idx = 0;
 
 let numMembers = ref(0)
 
+const today = new Date();
 let d = new Date();
 
 // need another function to check if we have enough fridays, we would like to at least the same number of fridays as we have in the members array
@@ -51,13 +53,14 @@ function allFridays(d: Date, numMembers) {
     // if the number of fridays is more than the number of members, then we need to remove fridays
     // if the number of fridays is equal to the number of members, then we are good to go
 
-    let month = d.getMonth(),
+    let new_d = new Date(), 
+        month = d.getMonth(),
         fridays = Array<Date>();
     fridays = getFridays(d, month, fridays)
     while (fridays.length < numMembers) {
         month += 1;
-        d = new Date(d.getFullYear(), month, 1);
-        fridays = getFridays(d, month, fridays)
+        new_d = new Date(d.getFullYear(), month, 1);
+        fridays = getFridays(new_d, month, fridays)
     }
 
     return fridays.slice(0, numMembers)
@@ -95,7 +98,14 @@ function deleteRow(index: number) {
     tableData.rows.splice(index, 1)
 }
 
+const chgDate = ref(false);
 
+function changeDate() {
+    chgDate.value = !chgDate.value
+}
+
+// there cant only be a single value otherwise all the dates would be the same
+const dateValue = ref<Dayjs>();
 </script>
 
 
@@ -103,7 +113,7 @@ function deleteRow(index: number) {
 
 <template>
     <h1>Tech Talk Rota</h1>
-    <h3>Today's Date: {{ d.getDate() }}/{{ d.getMonth()+1 }}/{{ d.getFullYear() }}</h3>
+    <h3>Today's Date: {{ today.getDate() }}/{{ today.getMonth()+1 }}/{{ today.getFullYear() }}</h3>
     <KInputNumber label="How many members are there in the team?" v-model="numMembers" />
     <KButton variant="transparent" size="sm" label="Confirm" @click="confirm" />
     <h5>List of Fridays</h5>
@@ -128,14 +138,17 @@ function deleteRow(index: number) {
         <table class="table">
             <thead>
                 <tr>
-                <th>Name</th>
-                <th>Date</th>
+                    <th>Name</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- <tableRow v-for="{row, index} in tableData.rows" :key="index" :rowData="row" :changeDate="changeDate" :chgDate="chgDate" /> -->
                 <tr v-for="(row, index) in tableData.rows" :key="index">
-                <td>{{ row.name }}</td>
-                <td>{{ row.date }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.date }}</td>
+                    <td><KButton @click="changeDate" size="sm" variant="primary" label="Change Date"/></td>
+                    <td><k-input-date v-if="chgDate" v-model="dateValue" label="Date" /></td>
                 </tr>
             </tbody>
         </table>

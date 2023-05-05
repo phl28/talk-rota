@@ -115,8 +115,11 @@ function changeDate(index: number, dateValue: Dayjs) {
 <template>
     <h1>Tech Talk Rota</h1>
     <h3>Today's Date: {{ today.getDate() }}/{{ today.getMonth()+1 }}/{{ today.getFullYear() }}</h3>
-    <KInputNumber label="How many members are there in the team?" v-model="numMembers" />
-    <KButton variant="transparent" size="sm" label="Confirm" @click="confirm" />
+    <form @submit.prevent="confirm">
+        <KInputNumber label="How many members are there in the team?" v-model="numMembers" />
+        <KButton variant="transparent" size="sm" label="Confirm" @click="confirm" />
+    </form>
+    <hr>
     <h5>List of Fridays</h5>
     <ol v-if="numMembersCheck">
         <li v-for="friday in fridays" :key="friday">
@@ -157,6 +160,4 @@ function changeDate(index: number, dateValue: Dayjs) {
   width: 100%;
   max-width: 800px;
 }
-
-
 </style>

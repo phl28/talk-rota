@@ -59,7 +59,6 @@ const isSignedIn = ref(false)
 </template>
 
 <style scoped>
-
 .box-container {
   display: grid;
   align-items: start;
@@ -75,7 +74,7 @@ const isSignedIn = ref(false)
 .box {
   background: var(--k-background);
   padding: 1.5rem;
-  border-radius: 6px;
+  border-radius: 20px;
   margin: calc(2rem + 10vh) auto 4rem;
   width: 100%;
   max-width: 400px;

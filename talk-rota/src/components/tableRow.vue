@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { KInputDate, KButton } from "@cambridgekineticsltd/kinetic-ui";
 
 const props = defineProps({
@@ -11,20 +11,20 @@ const props = defineProps({
     changeDate: Function,
 })
 
-// const dateValue = ref<Dayjs>();
-const dateValue = ref(dayjs(props.rowData.date))
+  const dateValue = ref(dayjs(props.rowData?.date))
 
 
 watch(dateValue, (newDate) => {
-  props.changeDate(props.index, newDate)
+  if (props.changeDate) {
+    props.changeDate(props.index, newDate)
+  }
 })
-
 </script> 
 
 <template>
   <tr>
-    <td>{{ rowData.name }}</td>
-    <td>{{ rowData.date  }}</td>
+    <td>{{ rowData?.name }}</td>
+    <td>{{ rowData?.date  }}</td>
     <td><KButton @click="changeDateBool" size="sm" variant="primary" label="Change Date"/></td>
     <td><k-input-date v-if="chgDate" v-model="dateValue" label="Date"/></td>
   </tr>

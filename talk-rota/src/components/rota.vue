@@ -23,7 +23,7 @@ let remainingFridays = Array<Date>();
 
 function removeMember(member: object) {
     let index = members.value.findIndex(m => m === member)
-    let idx = fridays.findIndex(f => (f.getDate()+ '/' + (f.getMonth()+1) + '/' + f.getFullYear()) === tableData.rows[index].date)
+    let idx = fridays.findIndex(f => (f.getDate()+ '/' + (f.getMonth()+1) + '/' + f.getFullYear()) === tableData[index].date)
     members.value = members.value.filter(m => m !== member)
     deleteRow(index)
     remainingFridays.push(fridays[idx])
@@ -46,7 +46,7 @@ const today = new Date();
 let d = new Date();
 
 // need another function to check if we have enough fridays, we would like to at least the same number of fridays as we have in the members array
-function allFridays(d: Date, numMembers) {
+function allFridays(d: Date, numMembers: number) {
     // get the number of fridays
     // get the number of members
     // if the number of fridays is less than the number of members, then we need to add more fridays
@@ -82,20 +82,23 @@ function getFridays(d: Date, month: number, fridays: Array<Date>) {
     return fridays;
 }
 
-const tableData = reactive ({
-    rows: []
-})
+interface ITable {
+    name: string,
+    date: string,
+}
+
+const tableData = reactive<ITable[]>([])
 
 
 function addRow() {
     idx = Math.floor(Math.random() * remainingFridays.length)
-    tableData.rows.push({ name: newMember.value, date: remainingFridays[idx].getDate() + '/' + (remainingFridays[idx].getMonth()+1) + '/' + remainingFridays[idx].getFullYear() })
+    tableData.push({ name: newMember.value, date: remainingFridays[idx].getDate() + '/' + (remainingFridays[idx].getMonth()+1) + '/' + remainingFridays[idx].getFullYear() })
     remainingFridays.splice(idx, 1)
     newMember.value = ''
 }
 
 function deleteRow(index: number) {
-    tableData.rows.splice(index, 1)
+    tableData.splice(index, 1)
 }
 
 const chgDate = ref(false);
@@ -105,7 +108,7 @@ function changeDateBool() {
 }
 
 function changeDate(index: number, dateValue: Dayjs) {
-    tableData.rows[index].date = dateValue.toDate().getDate() + '/' + (dateValue.toDate().getMonth()+1) + '/' + dateValue.toDate().getFullYear()
+    tableData[index].date = dateValue.toDate().getDate() + '/' + (dateValue.toDate().getMonth()+1) + '/' + dateValue.toDate().getFullYear()
 }
 </script>
 
@@ -122,7 +125,7 @@ function changeDate(index: number, dateValue: Dayjs) {
     <hr>
     <h5>List of Fridays</h5>
     <ol v-if="numMembersCheck">
-        <li v-for="friday in fridays" :key="friday">
+        <li v-for="friday in fridays" :key="friday.toISOString()">
             {{ friday.getDate() }}/{{ friday.getMonth()+1 }}/{{ friday.getFullYear() }}
         </li>
     </ol>
@@ -147,7 +150,7 @@ function changeDate(index: number, dateValue: Dayjs) {
                 </tr>
             </thead>
             <tbody>
-                <tableRow v-for="(row, index) in tableData.rows" :key="index" :rowData="row" :index="index" :changeDateBool="changeDateBool" :chgDate="chgDate" :changeDate="changeDate"/>
+                <tableRow v-for="(row, index) in tableData" :key="index" :rowData="row" :index="index" :changeDateBool="changeDateBool" :chgDate="chgDate" :changeDate="changeDate"/>
             </tbody>
         </table>
 

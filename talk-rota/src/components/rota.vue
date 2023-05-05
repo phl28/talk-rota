@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { KButton, KInputNumber, KInput } from "@cambridgekineticsltd/kinetic-ui";
 import { ref, reactive } from 'vue';
+import type { Dayjs } from 'dayjs';
 import tableRow from './tableRow.vue'
 
 let id = 0;
@@ -99,10 +100,13 @@ function deleteRow(index: number) {
 
 const chgDate = ref(false);
 
-function changeDate() {
+function changeDateBool() {
     chgDate.value = !chgDate.value
 }
 
+function changeDate(index: number, dateValue: Dayjs) {
+    tableData.rows[index].date = dateValue.toDate().getDate() + '/' + (dateValue.toDate().getMonth()+1) + '/' + dateValue.toDate().getFullYear()
+}
 </script>
 
 
@@ -140,7 +144,7 @@ function changeDate() {
                 </tr>
             </thead>
             <tbody>
-                <tableRow v-for="(row, index) in tableData.rows" :key="index" :rowData="row" :changeDate="changeDate" :chgDate="chgDate" />
+                <tableRow v-for="(row, index) in tableData.rows" :key="index" :rowData="row" :index="index" :changeDateBool="changeDateBool" :chgDate="chgDate" :changeDate="changeDate"/>
             </tbody>
         </table>
 

@@ -1,24 +1,34 @@
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
-import type { Dayjs } from 'dayjs';
+import { ref, watch } from 'vue'
+import * as dayjs from 'dayjs';
 import { KInputDate, KButton } from "@cambridgekineticsltd/kinetic-ui";
 
 const props = defineProps({
     rowData: Object,
-    changeDate: Function,
+    index: Number,
+    changeDateBool: Function,
     chgDate: Boolean,
+    changeDate: Function,
 })
 
-const dateValue = ref<Dayjs>();
-</script>
+// const dateValue = ref<Dayjs>();
+const dateValue = ref(dayjs(props.rowData.date))
+
+
+watch(dateValue, (newDate) => {
+  props.changeDate(props.index, newDate)
+})
+
+</script> 
 
 <template>
   <tr>
     <td>{{ rowData.name }}</td>
-    <td>{{ (typeof dateValue !== 'undefined') ? (dateValue.format('DD/MM/YYYY')) : (rowData.date)  }}</td>
-    <td><KButton @click="changeDate" size="sm" variant="primary" label="Change Date"/></td>
-    <td><k-input-date v-if="chgDate" v-model="dateValue" label="Date" /></td>
+    <td>{{ rowData.date  }}</td>
+    <td><KButton @click="changeDateBool" size="sm" variant="primary" label="Change Date"/></td>
+    <td><k-input-date v-if="chgDate" v-model="dateValue" label="Date"/></td>
   </tr>
+  <!-- @k-input-date="changeDate" -->
 </template> 
 
 <style>

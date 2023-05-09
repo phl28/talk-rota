@@ -10,7 +10,7 @@ const members = ref(new Array)
 const numMembersCheck = ref(false)
 
 function addMember() {
-    if (members.value.length  < numMembers.value) {
+    if (members.value.length < numMembers.value) {
         members.value.push({ id: id++, member_name: newMember.value })
         addRow()
         newMember.value = ''

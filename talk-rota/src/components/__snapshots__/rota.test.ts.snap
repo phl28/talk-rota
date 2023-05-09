@@ -1,0 +1,42 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rota > mount component 1`] = `
+"<h1 data-v-d4210d9b=\\"\\">Tech Talk Rota</h1>
+<h3 data-v-d4210d9b=\\"\\">Today's Date: 9/5/2023</h3>
+<form data-v-d4210d9b=\\"\\">
+  <div data-v-d4210d9b=\\"\\" class=\\"form-control-container\\"><label data-v-8670662a=\\"\\" for=\\"f0aa57c6-cbb5-4188-b217-7fc576205729\\" class=\\"label\\">How many members are there in the team?</label>
+    <!---->
+    <!----><input id=\\"f0aa57c6-cbb5-4188-b217-7fc576205729\\" class=\\"form-control form-control-sm\\" type=\\"number\\" aria-label=\\"How many members are there in the team?\\" placeholder=\\"How many members are there in the team?\\" aria-required=\\"false\\" aria-invalid=\\"false\\" step=\\"any\\">
+    <!---->
+  </div><button data-v-d4210d9b=\\"\\" type=\\"button\\" class=\\"btn btn btn-sm btn-transparent\\" aria-disabled=\\"false\\" aria-pressed=\\"false\\" title=\\"Confirm\\">
+    <!----> Confirm
+    <!---->
+  </button>
+</form>
+<hr data-v-d4210d9b=\\"\\">
+<h5 data-v-d4210d9b=\\"\\">List of Fridays</h5>
+<!--v-if-->
+<form data-v-d4210d9b=\\"\\">
+  <div data-v-d4210d9b=\\"\\" class=\\"form-control-container\\"><label data-v-8670662a=\\"\\" for=\\"7dd11492-60bb-4f89-bebe-ad8d1577c686\\" class=\\"label\\">Member Name</label>
+    <!---->
+    <!----><input id=\\"7dd11492-60bb-4f89-bebe-ad8d1577c686\\" class=\\"form-control form-control-sm\\" type=\\"text\\" autocomplete=\\"off\\" aria-label=\\"Member Name\\" placeholder=\\"Member Name\\" aria-required=\\"false\\" aria-invalid=\\"false\\">
+    <!---->
+  </div><button data-v-d4210d9b=\\"\\" type=\\"button\\" class=\\"btn btn btn-sm btn-transparent\\" aria-disabled=\\"false\\" aria-pressed=\\"false\\" title=\\"Add Member\\">
+    <!----> Add Member
+    <!---->
+  </button>
+</form>
+<ol data-v-d4210d9b=\\"\\"></ol>
+<!-- table to show the dates assigned to the members -->
+<div data-v-d4210d9b=\\"\\">
+  <table data-v-d4210d9b=\\"\\" class=\\"table\\">
+    <thead data-v-d4210d9b=\\"\\">
+      <tr data-v-d4210d9b=\\"\\">
+        <th data-v-d4210d9b=\\"\\">Name</th>
+        <th data-v-d4210d9b=\\"\\">Date</th>
+      </tr>
+    </thead>
+    <tbody data-v-d4210d9b=\\"\\"></tbody>
+  </table>
+</div>"
+`;

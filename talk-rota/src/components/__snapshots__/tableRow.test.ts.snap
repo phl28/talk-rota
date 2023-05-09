@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`mount component 1`] = `
+"<tr>
+  <td>test</td>
+  <td>2021-01-01</td>
+  <td><button type=\\"button\\" class=\\"btn btn btn-sm btn-primary\\" aria-disabled=\\"false\\" aria-pressed=\\"false\\" title=\\"Change Date\\">
+      <!----> Change Date
+      <!---->
+    </button></td>
+  <td>
+    <!--v-if-->
+  </td>
+</tr>
+<!-- @k-input-date=\\"changeDate\\" -->"
+`;
